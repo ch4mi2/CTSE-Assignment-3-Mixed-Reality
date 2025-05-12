@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -11,18 +11,42 @@
   </head>
   <body>
     <a-scene embedded arjs>
-      <a-marker preset="hiro">
+      <a-marker preset="hiro" id="hiro-marker">
         <a-entity
           gltf-model="url(/models/robin_bird.glb)"
           animation-mixer="clip: Robin_Bird_Fly; loop: repeat"
           scale="20 20 20"
           position="0 0 0"
-          rotation="-30 90 90">
-        </a-entity>
+          rotation="-30 90 90"
+        ></a-entity>
+
+        <a-sound
+          id="birdSound"
+          src="url(/sounds/robin-singing.mp3)"
+          autoplay="false" 
+          position="0 2 0"
+        ></a-sound>
       </a-marker>
       <a-entity camera></a-entity>
-    </a-scene> 
-  
+    </a-scene>
+
+    <script>
+      const marker = document.querySelector('#hiro-marker');
+      const sound = document.querySelector('#birdSound');
+
+      marker.addEventListener('markerFound', function() {
+        if (sound && sound.components.sound) {
+          sound.components.sound.playSound();
+        }
+      });
+
+      marker.addEventListener('markerLost', function() {
+        if (sound && sound.components.sound) {
+          sound.components.sound.stopSound();
+        }
+      });
+    </script>
+
     <div id="root"></div>
-  </body>  
+  </body>
 </html>
