@@ -4,49 +4,13 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <title>AR Scene Modular</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/2.2.1/aframe/build/aframe-ar.js"></script>
     <script src="https://unpkg.com/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
   </head>
   <body>
-    <a-scene embedded arjs>
-      <a-marker preset="hiro" id="hiro-marker">
-        <a-entity
-          gltf-model="url(/models/robin_bird.glb)"
-          animation-mixer="clip: Robin_Bird_Fly; loop: repeat"
-          scale="20 20 20"
-          position="0 0 0"
-          rotation="-30 90 90"
-        ></a-entity>
-
-        <a-sound
-          id="birdSound"
-          src="url(/sounds/robin-singing.mp3)"
-          autoplay="false" 
-          position="0 2 0"
-        ></a-sound>
-      </a-marker>
-      <a-entity camera></a-entity>
-    </a-scene>
-
-    <script>
-      const marker = document.querySelector('#hiro-marker');
-      const sound = document.querySelector('#birdSound');
-
-      marker.addEventListener('markerFound', function() {
-        if (sound && sound.components.sound) {
-          sound.components.sound.playSound();
-        }
-      });
-
-      marker.addEventListener('markerLost', function() {
-        if (sound && sound.components.sound) {
-          sound.components.sound.stopSound();
-        }
-      });
-    </script>
-
     <div id="root"></div>
+    <script src="/src/models/robin.js"></script>
   </body>
 </html>
