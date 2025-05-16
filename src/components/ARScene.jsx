@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { forestHTML, initForestEvents } from '../models/forest.js';
 import { initRobinEvents, robinHTML } from '../models/robin.js';
-import '../styles/ARScene.css';
+import './ARScene.css';
 
 const ARScene = () => {
   const sceneContainerRef = useRef(null);
