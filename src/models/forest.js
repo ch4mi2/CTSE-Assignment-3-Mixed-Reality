@@ -1,4 +1,4 @@
-// Fixed forest.js with correct animation name
+// Updated forest.js with text disappearing when cursor moves away
 export const forestHTML = `
   <a-marker preset="kanji" id="forest-marker">
     <!-- Forest environment -->
@@ -18,7 +18,7 @@ export const forestHTML = `
       <a-entity
         id="deer"
         gltf-model="url(/models/deer.glb)"
-        position="0 0.1 0"
+        position="0 0.14 0"
         scale="0.3 0.3 0.3"
         rotation="0 0 0"
         animation-mixer="clip: AnimalArmature|AnimalArmature|Eating; loop: repeat"
@@ -40,33 +40,76 @@ export const forestHTML = `
         position="0 0.5 0"></a-sound>
     </a-entity>
    
-    <!-- Text popup that will be shown when deer is clicked -->
-    <a-text
-      id="infoText"
-      value="Deer (Cervidae)"
-      position="0 1 0"
-      align="center"
-      width="2"
-      color="#FFF"
-      visible="false"></a-text>
+    <a-entity id="infoTextContainer" position="0 3 0" visible="false">
+      <a-plane 
+        color="#2A3B4C" 
+        opacity="0.8" 
+        width="4" 
+        height="1.5" 
+        position="0 0 -0.01"
+        material="shader: flat; transparent: true; side: double"
+        animation__position=""
+        animation__rotation=""
+        animation__scale="">
+      </a-plane>
+      
+      <a-plane 
+        color="#F5A623" 
+        opacity="0.9" 
+        width="4.1" 
+        height="1.6" 
+        position="0 0 -0.02"
+        material="shader: flat; transparent: true"
+        animation__position=""
+        animation__rotation=""
+        animation__scale="">
+      </a-plane>
+      
+      <a-text
+        value="🦌 DEER FACT"
+        position="0 0.5 0"
+        align="center"
+        width="4"
+        color="#F5A623"
+        font="kelsonsans"
+        anchor="center"
+        baseline="center"
+        animation__position=""
+        animation__rotation=""
+        animation__scale="">
+      </a-text>
+      
+      <a-text
+        id="infoText"
+        value="Deer can rotate each ear independently, allowing them to listen in multiple directions simultaneously to detect predators and stay alert in their environment."
+        position="0 0 0"
+        align="center"
+        width="3.5"
+        color="#FFFFFF"
+        font="kelsonsans"
+        anchor="center"
+        baseline="center"
+        animation__position=""
+        animation__rotation=""
+        animation__scale="">
+      </a-text>
+    </a-entity>
   </a-marker>
 `;
 
 export function initForestEvents() {
-  // Wait for scene to initialize
   setTimeout(() => {
     const forestMarker = document.querySelector('#forest-marker');
     const forestSound = document.querySelector('#forestSound');
     const deer = document.querySelector('#deer');
     const deerSound = document.querySelector('#deerSound');
-    const infoText = document.querySelector('#infoText');
+    const infoTextContainer = document.querySelector('#infoTextContainer');
 
     if (forestMarker && forestSound) {
       forestMarker.addEventListener('markerFound', () => {
         console.log('Forest marker found');
         forestSound.components?.sound?.playSound();
 
-        // Start animation if not already playing
         if (deer) {
           deer.setAttribute('animation-mixer', {
             clip: 'AnimalArmature|AnimalArmature|Eating',
@@ -81,8 +124,8 @@ export function initForestEvents() {
         if (deerSound && deerSound.components?.sound) {
           deerSound.components.sound.stopSound();
         }
-        if (infoText) {
-          infoText.setAttribute('visible', false);
+        if (infoTextContainer) {
+          infoTextContainer.setAttribute('visible', false);
         }
       });
     }
@@ -94,12 +137,10 @@ export function initForestEvents() {
         if (deerSound && deerSound.components?.sound) {
           deerSound.components.sound.playSound();
         }
-        if (infoText) {
-          const isVisible = infoText.getAttribute('visible');
-          infoText.setAttribute('visible', !isVisible);
+        if (infoTextContainer) {
+          infoTextContainer.setAttribute('visible', true);
         }
 
-        // Toggle animation state (play/pause)
         const currentState =
           deer.getAttribute('animation-mixer').enabled !== false;
         deer.setAttribute('animation-mixer', {
@@ -109,9 +150,18 @@ export function initForestEvents() {
         });
         console.log(`Animation ${!currentState ? 'resumed' : 'paused'}`);
       });
+
+      deer.addEventListener('mouseleave', () => {
+        console.log('Mouse left deer');
+        if (infoTextContainer) {
+          infoTextContainer.setAttribute('visible', false);
+        }
+        if (deerSound && deerSound.components?.sound) {
+          deerSound.components.sound.stopSound();
+        }
+      });
     }
 
-    // Add cursor for interaction
     const camera = document.querySelector('a-entity[camera]');
     if (camera && !document.querySelector('a-cursor')) {
       const cursor = document.createElement('a-cursor');
@@ -122,7 +172,6 @@ export function initForestEvents() {
       camera.appendChild(cursor);
     }
 
-    // Touch event handling for mobile devices
     document.addEventListener('touchstart', (event) => {
       if (event.touches && event.touches.length > 0) {
         const touch = event.touches[0];
@@ -138,6 +187,15 @@ export function initForestEvents() {
         if (element) {
           element.dispatchEvent(mouseEvent);
         }
+      }
+    });
+
+    document.addEventListener('touchstart', (event) => {
+      const touch = event.touches[0];
+      const element = document.elementFromPoint(touch.clientX, touch.clientY);
+
+      if (element && element.id !== 'deer' && infoTextContainer) {
+        infoTextContainer.setAttribute('visible', false);
       }
     });
   }, 1000);
