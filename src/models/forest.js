@@ -1,6 +1,5 @@
-// Updated forest.js with text disappearing when cursor moves away
 export const forestHTML = `
-  <a-marker preset="kanji" id="forest-marker">
+  <a-marker type="pattern" url="/markers/forest-marker.patt" id="forest-marker">
     <!-- Forest environment -->
     <a-entity
       position="0 0 0"
@@ -12,7 +11,6 @@ export const forestHTML = `
         position="0 0.1 0"
         rotation="0 0 0"
         scale="0.2 0.2 0.2"></a-entity>
-       
      
       <!-- Deer model with correct animation -->
       <a-entity
