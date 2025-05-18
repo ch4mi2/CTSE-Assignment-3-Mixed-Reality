@@ -8,7 +8,7 @@ export const forestHTML = `
       <!-- Trees -->
       <a-entity
         gltf-model="url(/models/tree_reformed.glb)"
-        position="0 0.1 0"
+        position="0 0 0"
         rotation="0 0 0"
         scale="0.2 0.2 0.2"></a-entity>
      
@@ -16,7 +16,7 @@ export const forestHTML = `
       <a-entity
         id="deer"
         gltf-model="url(/models/deer.glb)"
-        position="0 0.14 0"
+        position="0 0.04 0"
         scale="0.3 0.3 0.3"
         rotation="0 0 0"
         animation-mixer="clip: AnimalArmature|AnimalArmature|Eating; loop: repeat"
@@ -38,7 +38,7 @@ export const forestHTML = `
         position="0 0.5 0"></a-sound>
     </a-entity>
    
-    <a-entity id="infoTextContainer" position="0 3 0" visible="false">
+    <a-entity id="infoTextContainer" position="0 2.5 0" visible="false">
       <a-plane 
         color="#2A3B4C" 
         opacity="0.8" 
@@ -64,7 +64,7 @@ export const forestHTML = `
       </a-plane>
       
       <a-text
-        value="🦌 DEER FACT"
+        value="DEER FACT"
         position="0 0.5 0"
         align="center"
         width="4"
@@ -85,7 +85,6 @@ export const forestHTML = `
         width="3.5"
         color="#FFFFFF"
         font="kelsonsans"
-        anchor="center"
         baseline="center"
         animation__position=""
         animation__rotation=""
