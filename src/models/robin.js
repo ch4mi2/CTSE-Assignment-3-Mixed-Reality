@@ -18,8 +18,10 @@ export const robinHTML = `
 
 export function initRobinEvents() {
   const hiroMarker = document.querySelector('#hiro-marker');
+  const birdEntity = hiroMarker.querySelector('a-entity');
   const birdSound = document.querySelector('#birdSound');
 
+  // Play sound on marker detection
   if (hiroMarker && birdSound) {
     hiroMarker.addEventListener('markerFound', () => {
       birdSound.components?.sound?.playSound();
@@ -29,4 +31,27 @@ export function initRobinEvents() {
       birdSound.components?.sound?.stopSound();
     });
   }
+
+  // Mouse-based rotation
+  let isDragging = false;
+  let prevX = 0;
+
+  document.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    prevX = e.clientX;
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const deltaX = e.clientX - prevX;
+    prevX = e.clientX;
+
+    // Adjust rotation (Y-axis)
+    birdEntity.object3D.rotation.x -= deltaX * 0.01;
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
 }
+
