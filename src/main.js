@@ -1,10 +1,20 @@
-import { forestHTML, initForestEvents } from './models/forest.js';
+import { dogHTML, initDogEvents } from './models/dog.js';
+import { initForestEvents } from './models/forest.js';
 import { initRobinEvents, robinHTML } from './models/robin.js';
 
 const sceneHTML = `
-  <a-scene embedded arjs="sourceType: webcam; facingMode: environment;">
+  <a-scene 
+    arjs
+    embedded  
+    renderer="logarithmicDepthBuffer: true;"
+    vr-mode-ui="enabled: false"
+    gesture-detector
+    id="scene"
+  >
+   <a-marker preset="hiro" id="hiro-marker">
     ${robinHTML}
-    ${forestHTML}
+    ${dogHTML}
+    </a-marker>
     <a-entity camera></a-entity>
   </a-scene>
 `;
@@ -15,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const scene = document.querySelector('a-scene');
   scene.addEventListener('loaded', () => {
     initRobinEvents();
+    initDogEvents();
     initForestEvents();
   });
 });
