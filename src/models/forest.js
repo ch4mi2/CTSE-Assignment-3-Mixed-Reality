@@ -65,7 +65,7 @@ export const forestHTML = `
       
       <a-text
         value="DEER FACT"
-        position="0 0.5 0"
+        position="0 0 1"
         align="center"
         width="4"
         color="#F5A623"
@@ -80,7 +80,7 @@ export const forestHTML = `
       <a-text
         id="infoText"
         value="Deer can rotate each ear independently, allowing them to listen in multiple directions simultaneously to detect predators and stay alert in their environment."
-        position="0 0 0"
+        position="0 0 0.5"
         align="center"
         width="3.5"
         color="#FFFFFF"
