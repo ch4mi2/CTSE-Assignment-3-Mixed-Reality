@@ -54,6 +54,56 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.ar-ui-overlay {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  z-index: 1000;
+  max-width: 300px;
+  font-family: Arial, sans-serif;
+}
+
+.instructions {
+  font-size: 14px;
+}
+
+.instructions h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.markers {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.marker-item {
+  text-align: center;
+  margin: 0 5px;
+}
+
+.marker-item img {
+  width: 80px;
+  height: auto;
+  border: 2px solid white;
+}
+
+.marker-item p {
+  margin: 5px 0;
+}
+
+@media (max-width: 600px) {
+  .ar-ui-overlay {
+    max-width: 80%;
+  }
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
