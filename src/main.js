@@ -1,15 +1,17 @@
-import { robinHTML, initRobinEvents } from './models/robin.js';
 import { dogHTML, initDogEvents } from './models/dog.js';
+import { forestHTML, initForestEvents } from './models/forest.js';
+import { initRobinEvents, robinHTML } from './models/robin.js';
 
 const sceneHTML = `
   <a-scene 
     arjs
-    embedded  
+    embedded 
     renderer="logarithmicDepthBuffer: true;"
     vr-mode-ui="enabled: false"
     gesture-detector
     id="scene"
   >
+  ${forestHTML}
    <a-marker preset="hiro" id="hiro-marker">
     ${robinHTML}
     ${dogHTML}
@@ -25,5 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
   scene.addEventListener('loaded', () => {
     initRobinEvents();
     initDogEvents();
+    initForestEvents();
   });
 });
