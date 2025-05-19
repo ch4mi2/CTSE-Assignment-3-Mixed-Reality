@@ -1,5 +1,6 @@
 # Installation
-
+*. Install openssl
+   `choco install openssl`
 1. Create a directory for your certificates <br />
    `mkdir -p ./ssl-cert`
 
