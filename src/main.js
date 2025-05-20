@@ -1,4 +1,4 @@
-import { dogHTML, initDogEvents } from './models/dog.js';
+import { lionessHTML, initLionessEvents } from './models/lioness.js';
 import { forestHTML, initForestEvents } from './models/forest.js';
 import { initRobinEvents, robinHTML } from './models/robin.js';
 
@@ -12,17 +12,13 @@ const sceneHTML = `
     id="scene"
   >
   ${forestHTML}
-   <a-marker preset="hiro" id="hiro-marker">
+  <a-marker preset="hiro" id="hiro-marker">
     ${robinHTML}
-
-
-    ${dogHTML}
-    </a-marker>
+  </a-marker>
+  ${lionessHTML}
     <a-entity camera cursor="rayOrigin: mouse"></a-entity>
   </a-scene>
 `;
-
-
 
 document.addEventListener('DOMContentLoaded', () => {
   document.body.insertAdjacentHTML('afterbegin', sceneHTML);
@@ -30,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const scene = document.querySelector('a-scene');
   scene.addEventListener('loaded', () => {
     initRobinEvents();
-    initDogEvents();
+    initLionessEvents();
     initForestEvents();
   });
 });
