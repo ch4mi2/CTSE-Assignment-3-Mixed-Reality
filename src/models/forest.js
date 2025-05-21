@@ -1,6 +1,5 @@
-// Updated forest.js with text disappearing when cursor moves away
 export const forestHTML = `
-  <a-marker preset="kanji" id="forest-marker">
+  <a-marker type="pattern" url="/markers/forest-marker.patt" id="forest-marker">
     <!-- Forest environment -->
     <a-entity
       position="0 0 0"
@@ -9,7 +8,7 @@ export const forestHTML = `
       <!-- Trees -->
       <a-entity
         gltf-model="url(/models/tree_reformed.glb)"
-        position="0 0.1 0"
+        position="0 0 0"
         rotation="0 0 0"
         scale="0.2 0.2 0.2"></a-entity>
        
@@ -18,7 +17,7 @@ export const forestHTML = `
       <a-entity
         id="deer"
         gltf-model="url(/models/deer.glb)"
-        position="0 0.14 0"
+        position="0 0.04 0"
         scale="0.3 0.3 0.3"
         rotation="0 0 0"
         animation-mixer="clip: AnimalArmature|AnimalArmature|Eating; loop: repeat"
@@ -39,59 +38,29 @@ export const forestHTML = `
         autoplay="false"
         position="0 0.5 0"></a-sound>
     </a-entity>
-   
-    <a-entity id="infoTextContainer" position="0 3 0" visible="false">
-      <a-plane 
-        color="#2A3B4C" 
-        opacity="0.8" 
-        width="4" 
-        height="1.5" 
-        position="0 0 -0.01"
-        material="shader: flat; transparent: true; side: double"
-        animation__position=""
-        animation__rotation=""
-        animation__scale="">
-      </a-plane>
-      
-      <a-plane 
-        color="#F5A623" 
-        opacity="0.9" 
-        width="4.1" 
-        height="1.6" 
-        position="0 0 -0.02"
-        material="shader: flat; transparent: true"
-        animation__position=""
-        animation__rotation=""
-        animation__scale="">
-      </a-plane>
-      
-      <a-text
+
+    <a-entity id="infoTextContainer" position="0 2 -1" visible="false">
+       <a-text
         value="🦌 DEER FACT"
-        position="0 0.5 0"
+        position="0 .8 0"
         align="center"
         width="4"
         color="#F5A623"
         font="kelsonsans"
         anchor="center"
-        baseline="center"
-        animation__position=""
-        animation__rotation=""
-        animation__scale="">
+        baseline="center">
       </a-text>
       
       <a-text
         id="infoText"
         value="Deer can rotate each ear independently, allowing them to listen in multiple directions simultaneously to detect predators and stay alert in their environment."
-        position="0 0 0"
+        position="0 .3 0"
         align="center"
         width="3.5"
         color="#FFFFFF"
         font="kelsonsans"
         anchor="center"
-        baseline="center"
-        animation__position=""
-        animation__rotation=""
-        animation__scale="">
+        baseline="center">
       </a-text>
     </a-entity>
   </a-marker>
