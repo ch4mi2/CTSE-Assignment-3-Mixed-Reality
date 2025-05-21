@@ -3,7 +3,7 @@ export const elephantHTML = `
     <a-entity
       id="elephant"
       gltf-model="url(/models/african_bush_elephant.glb)"
-      scale="10 10 10"
+      scale="70 70 70"
       position="0 0 0"
       rotation="-30 270 90"
       class="clickable"

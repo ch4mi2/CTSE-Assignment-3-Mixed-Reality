@@ -3,7 +3,7 @@ export const robinHTML = `
     <a-entity
       gltf-model="url(/models/robin_bird.glb)"
       animation-mixer="clip: Robin_Bird_Fly; loop: repeat"
-      scale="10 10 10"
+      scale="20 20 20"
       position="0 0 0"
       rotation="-30 90 90"
     ></a-entity>

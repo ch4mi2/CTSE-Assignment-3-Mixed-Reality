@@ -6,7 +6,7 @@ export const lionessHTML = `
       id="lion"
       class="clickable"
       gltf-model="url(/models/lioness.glb)"
-      scale="0.4 0.4 0.4"
+      scale="0.7 0.7 0.7"
       position="0 0 0"
       rotation="0 0 0"
     ></a-entity>
