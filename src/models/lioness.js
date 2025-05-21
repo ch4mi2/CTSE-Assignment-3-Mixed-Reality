@@ -1,6 +1,6 @@
 export const lionessHTML = `
 <a-marker type="pattern" url="/markers/pattern-lion.patt" id="lion-patt">
-  <a-entity>
+  <a-entity scale="0.3 0.3 0.3">
     <!-- Lion -->
     <a-entity
       id="lion"
@@ -35,60 +35,6 @@ export const lionessHTML = `
       position="0 0 0"
     ></a-sound>
   </a-entity>
-
-   <a-entity id="lion-infoTextContainer" position="0 2.5 0" visible="false">
-      <a-plane 
-        color="#2A3B4C" 
-        opacity="0.8" 
-        width="4" 
-        height="1.5" 
-        position="0 0 -0.01"
-        material="shader: flat; transparent: true; side: double"
-        animation__position=""
-        animation__rotation=""
-        animation__scale="">
-      </a-plane>
-      
-      <a-plane 
-        color="#F5A623" 
-        opacity="0.9" 
-        width="4.1" 
-        height="1.6" 
-        position="0 0 -0.02"
-        material="shader: flat; transparent: true"
-        animation__position=""
-        animation__rotation=""
-        animation__scale="">
-      </a-plane>
-      
-      <a-text
-        value="DEER FACT"
-        position="0 0 1"
-        align="center"
-        width="4"
-        color="#F5A623"
-        font="kelsonsans"
-        anchor="center"
-        baseline="center"
-        animation__position=""
-        animation__rotation=""
-        animation__scale="">
-      </a-text>
-      
-      <a-text
-        id="infoText"
-        value="Deer can rotate each ear independently, allowing them to listen in multiple directions simultaneously to detect predators and stay alert in their environment."
-        position="0 0 0.5"
-        align="center"
-        width="3.5"
-        color="#FFFFFF"
-        font="kelsonsans"
-        baseline="center"
-        animation__position=""
-        animation__rotation=""
-        animation__scale="">
-      </a-text>
-    </a-entity>
 </a-marker>
 `;
 
@@ -108,6 +54,7 @@ export function initLionessEvents() {
 
       if (lion && scene) {
         scene.addEventListener('click', () => {
+          console.log('click');
           if (isWalking) {
             lion.removeAttribute('animation-mixer');
             isWalking = false;
