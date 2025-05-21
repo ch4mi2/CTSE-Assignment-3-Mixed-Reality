@@ -1,4 +1,5 @@
 export const robinHTML = `
+<a-marker type='pattern' url='/markers/robin.patt' id="hiro-marker">
     <a-entity
       gltf-model="url(/models/robin_bird.glb)"
       animation-mixer="clip: Robin_Bird_Fly; loop: repeat"
@@ -12,6 +13,7 @@ export const robinHTML = `
       autoplay="false"
       position="0 2 0"
     ></a-sound>
+    </a-marker>
 
 `;
 

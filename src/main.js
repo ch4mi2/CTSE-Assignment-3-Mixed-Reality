@@ -12,9 +12,9 @@ const sceneHTML = `
     id="scene"
   >
   ${forestHTML}
-  <a-marker preset="hiro" id="hiro-marker">
-    ${robinHTML}
-  </a-marker>
+ 
+  ${robinHTML}
+
   ${lionessHTML}
     <a-entity camera cursor="rayOrigin: mouse"></a-entity>
   </a-scene>
