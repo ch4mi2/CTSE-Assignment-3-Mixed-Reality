@@ -3,7 +3,7 @@ export const elephantHTML = `
     <a-entity
       id="elephant"
       gltf-model="url(/models/african_bush_elephant.glb)"
-      scale="70 70 70"
+      scale="40 40 40"
       position="0 0 0"
       rotation="-30 270 90"
       class="clickable"
@@ -13,7 +13,7 @@ export const elephantHTML = `
       id="elephantTrumpet"
       src="url(/sounds/elephant-trumpets.mp3)"
       preload="auto"
-      volume="3"
+      volume="2"
       position="0 2 0"
     ></a-sound>
 
@@ -30,7 +30,7 @@ export const elephantHTML = `
   <a-sound
     id="leavesRustle"
     src="url(/sounds/leaves-rustling.mp3)"
-    autoplay="true"
+    preload="auto"
     loop="true"
     position="0 0 0"
     volume="4"
@@ -42,105 +42,109 @@ export function initElephantEvents() {
   const elephant = document.querySelector('#elephant');
   const elephantSound = document.querySelector('#elephantTrumpet');
   const leavesRustle = document.querySelector('#leavesRustle');
-  
-  let currentAnimation = "Stand_02";
+
+  let currentAnimation = 'Stand_02';
   let animationSequenceStarted = false;
-  
+
   // Initialize leaves sound to play continuously in the background
   function initBackgroundSound() {
-    console.log("🌿 Initializing continuous background leaves sound");
-    if (leavesRustle && leavesRustle.components && leavesRustle.components.sound) {
+    console.log('🌿 Initializing continuous background leaves sound');
+    if (
+      leavesRustle &&
+      leavesRustle.components &&
+      leavesRustle.components.sound
+    ) {
       leavesRustle.components.sound.playSound();
-      
-      // Check every few seconds that leaves sound is still playing
-      setInterval(() => {
-        if (leavesRustle.components && leavesRustle.components.sound && 
-            !leavesRustle.components.sound.isPlaying) {
-          leavesRustle.components.sound.playSound();
-        }
-      }, 5000);
-    } else {
-      setTimeout(initBackgroundSound, 2000);
     }
   }
-  
+
+  function stopBackgroundSound() {
+    console.log('🌿 Stopping background leaves sound');
+    if (
+      leavesRustle &&
+      leavesRustle.components &&
+      leavesRustle.components.sound
+    ) {
+      leavesRustle.components.sound.stopSound();
+    }
+  }
+
   // Call once at startup and also when scene loads
-  document.addEventListener('DOMContentLoaded', initBackgroundSound);
-  document.querySelector('a-scene').addEventListener('loaded', initBackgroundSound);
-  
-  
+  // document
+  //   .querySelector('a-scene')
+  //   .addEventListener('loaded', initBackgroundSound);
+
   // Animation states
   const ANIMATIONS = {
-    STAND: "Stand_02",
-    TRANS_TO_LAYING: "Trans_Stand_To_Lying",
-    LAYING: "Lying_01",
-    STAND_UP: "Stand_01",
-    STANDUP: "Stand_00",
-    ROAR: "Roar"
+    STAND: 'Stand_02',
+    TRANS_TO_LAYING: 'Trans_Stand_To_Lying',
+    LAYING: 'Lying_01',
+    STAND_UP: 'Stand_01',
+    STANDUP: 'Stand_00',
+    ROAR: 'Roar',
   };
-  
-  
+
   // Check if the 3D model has loaded properly
   if (elephant) {
     elephant.addEventListener('model-loaded', () => {
       try {
         const mixer = elephant.components['animation-mixer'];
         if (mixer && mixer.mixer) {
-          console.log("Animation mixer available:", mixer);
+          console.log('Animation mixer available:', mixer);
         } else {
-          console.log("Animation mixer not available yet");
+          console.log('Animation mixer not available yet');
         }
       } catch (e) {
-        console.log("Error checking animations:", e);
+        console.log('Error checking animations:', e);
       }
     });
 
     elephant.addEventListener('model-error', (error) => {
-      console.error("🐘 Error loading 3D model:", error);
+      console.error('🐘 Error loading 3D model:', error);
     });
   }
-  
+
   if (elephantMarker && elephantSound && elephant) {
     // When marker is found
     elephantMarker.addEventListener('markerFound', () => {
-      console.log("Marker found, starting animation sequence");
-      
+      console.log('Marker found, starting animation sequence');
+      initBackgroundSound();
+
       if (!animationSequenceStarted) {
         animationSequenceStarted = true;
         startAnimationSequence();
       } else {
-        console.log("Animation sequence already in progress");
+        console.log('Animation sequence already in progress');
       }
     });
-    
+
     // When marker is lost
     elephantMarker.addEventListener('markerLost', () => {
-      console.log("Marker lost, stopping elephant sound and resetting");
+      console.log('Marker lost, stopping elephant sound and resetting');
       // Only stop the elephant trumpet sound, leave the rustling leaves playing
       elephantSound.components?.sound?.stopSound();
-      
+      stopBackgroundSound();
       animationSequenceStarted = false;
       resetElephant();
     });
-    
   } else {
-    console.error("Critical components missing:", { 
-      marker: !elephantMarker, 
-      elephant: !elephant, 
+    console.error('Critical components missing:', {
+      marker: !elephantMarker,
+      elephant: !elephant,
       sound: !elephantSound,
-      leaves: !leavesRustle
+      leaves: !leavesRustle,
     });
   }
-  
+
   function startAnimationSequence() {
     if (!elephant.hasAttribute('animation-mixer')) {
       elephant.setAttribute('animation-mixer', {});
     }
-    
+
     //Start with Stand_02 without trumpet sound
     elephant.setAttribute('animation-mixer', {
       clip: ANIMATIONS.STAND,
-      loop: 'repeat'
+      loop: 'repeat',
     });
     currentAnimation = ANIMATIONS.STAND;
 
@@ -149,84 +153,83 @@ export function initElephantEvents() {
       elephant.setAttribute('animation-mixer', {
         clip: ANIMATIONS.TRANS_TO_LAYING,
         loop: 'once',
-        clampWhenFinished: true
+        clampWhenFinished: true,
       });
       currentAnimation = ANIMATIONS.TRANS_TO_LAYING;
       try {
         elephantSound.components?.sound?.playSound();
       } catch (e) {
-        console.error("Error playing trumpet sound:", e);
+        console.error('Error playing trumpet sound:', e);
       }
-      
+
       //Check if animation is actually playing
       setTimeout(() => {
         try {
           const mixer = elephant.components['animation-mixer'];
           if (mixer && mixer.mixer) {
-            console.log("Current actions:", mixer.mixer._actions);
-            console.log("Is animation playing:", mixer.isPlaying);
+            console.log('Current actions:', mixer.mixer._actions);
+            console.log('Is animation playing:', mixer.isPlaying);
           }
         } catch (e) {
-          console.error("Error checking animation status:", e);
+          console.error('Error checking animation status:', e);
         }
       }, 500);
-      
+
       //After transition completes, set to laying down
-      console.log("Scheduling change to Lying_Down in 3 seconds");
+      console.log('Scheduling change to Lying_Down in 3 seconds');
       setTimeout(() => {
         elephant.setAttribute('animation-mixer', {
           clip: ANIMATIONS.LAYING,
-          loop: 'repeat'
+          loop: 'repeat',
         });
         currentAnimation = ANIMATIONS.LAYING;
-        
+
         //Check if this animation exists and is playing
         setTimeout(() => {
           try {
             const mixer = elephant.components['animation-mixer'];
-            console.log("Lying animation status:", mixer?.isPlaying);
+            console.log('Lying animation status:', mixer?.isPlaying);
           } catch (e) {
-            console.error("Error checking lying animation:", e);
+            console.error('Error checking lying animation:', e);
           }
         }, 500);
-        
+
         //After lying down period, transition back to standing
-        console.log("🐘 Scheduling stand up transition in 8 seconds");
+        console.log('🐘 Scheduling stand up transition in 8 seconds');
         setTimeout(() => {
           elephant.setAttribute('animation-mixer', {
             clip: ANIMATIONS.STAND_UP,
             loop: 'once',
-            clampWhenFinished: true
+            clampWhenFinished: true,
           });
           currentAnimation = ANIMATIONS.STAND_UP;
           try {
             elephantSound.components?.sound?.playSound();
           } catch (e) {
-            console.error("Error playing trumpet sound:", e);
+            console.error('Error playing trumpet sound:', e);
           }
-          
+
           //After stand up transition completes, return to standing
           setTimeout(() => {
             elephant.setAttribute('animation-mixer', {
               clip: ANIMATIONS.STAND,
-              loop: 'repeat'
+              loop: 'repeat',
             });
             currentAnimation = ANIMATIONS.STAND;
-  
-          }, 3000); 
-        }, 10000); 
-      }, 8000); 
-    }, 8000); 
+          }, 8000);
+        }, 20000);
+      }, 30000);
+    }, 30000);
   }
-  
+
   function resetElephant() {
-    console.log("Resetting elephant to initial state");
+    console.log('Resetting elephant to initial state');
     elephant.setAttribute('animation-mixer', {
       clip: ANIMATIONS.STAND,
-      loop: 'repeat'
+      loop: 'repeat',
     });
     elephant.setAttribute('rotation', '-30 270 90');
     currentAnimation = ANIMATIONS.STAND;
-    console.log("Reset completed, current animation:", currentAnimation);
+    console.log('Reset completed, current animation:', currentAnimation);
   }
 }
