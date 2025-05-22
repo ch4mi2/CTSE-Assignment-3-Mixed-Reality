@@ -39,7 +39,7 @@ export const forestHTML = `
         position="0 0.5 0"></a-sound>
     </a-entity>
 
-    <a-entity id="infoTextContainer" position="0 2 -1" visible="false">
+    <a-entity id="infoTextContainer" position="0 1.8 -1" visible="false">
        <a-text
         value="🦌 DEER FACT"
         position="0 .8 0"
@@ -133,6 +133,7 @@ export function initForestEvents() {
 
     const camera = document.querySelector('a-entity[camera]');
     if (camera && !document.querySelector('a-cursor')) {
+      console.log('Adding cursor to camera');
       const cursor = document.createElement('a-cursor');
       cursor.setAttribute('raycaster', 'objects: .interactive');
       cursor.setAttribute('color', '#FFF');

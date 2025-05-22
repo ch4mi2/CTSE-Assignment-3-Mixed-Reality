@@ -1,7 +1,7 @@
-import { lionessHTML, initLionessEvents } from './models/lioness.js';
-import { forestHTML, initForestEvents } from './models/forest.js';
-import { initRobinEvents, robinHTML } from './models/robin.js';
 import { elephantHTML, initElephantEvents } from './models/elephant.js';
+import { forestHTML, initForestEvents } from './models/forest.js';
+import { initLionessEvents, lionessHTML } from './models/lioness.js';
+import { initRobinEvents, robinHTML } from './models/robin.js';
 
 const sceneHTML = `
   <a-scene 
@@ -12,11 +12,9 @@ const sceneHTML = `
     gesture-detector
     id="scene"
   >
-  ${forestHTML}
- 
   ${robinHTML}
-
   ${lionessHTML}
+  ${forestHTML}
   ${elephantHTML}
     <a-entity camera cursor="rayOrigin: mouse"></a-entity>
   </a-scene>
